@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from accounts.forms import LoginForm
+from accounts.forms import LoginForm, RegisterForm
 
 
 def show_login(request):
@@ -17,10 +17,25 @@ def show_login(request):
         return redirect('dashboard')
 
     context = {
+        'title': 'Login',
         'form': form
     }
 
-    return render(request, "login.html", context)
+    return render(request, "accounts/login.html", context)
+
+
+def show_register(request):
+    form = RegisterForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('login')
+
+    context = {
+        'title': 'Register',
+        'form': form
+    }
+
+    return render(request, 'accounts/register.html', context)
 
 
 def show_logout(request):

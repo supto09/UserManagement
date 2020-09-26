@@ -58,7 +58,7 @@ class User(AbstractBaseUser):
     admin = models.BooleanField(default=False)  # a superuser
     # notice the absence of a "Password field", that is built in.
 
-    object = UserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # Email & Password are required by default.

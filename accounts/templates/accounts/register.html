@@ -1,0 +1,42 @@
+{% extends 'accounts.html' %}
+
+{% block content %}
+
+    <div class="text-white">
+        <h1>Welcome</h1>
+        <p class="s-18 p-t-b-20 font-weight-lighter">Hey Soldier let's get started there is
+            lot of
+            new stuff waiting
+            for you</p>
+    </div>
+
+    <form method="post">{% csrf_token %}
+        <div class="row">
+            {# django RegisterFrom render #}
+            {% for field in form %}
+                <div class="col-lg-12">
+                    <div class="form-group has-icon">
+                        {% if field.name == 'email' %}
+                            <i class="icon-envelope-o"></i>
+                        {% elif field.name == 'password' %}
+                            <i class="icon-user-secret"></i>
+                        {% elif field.name == 'password2' %}
+                            <i class="icon-user-secret"></i>
+                        {% endif %}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-lg-12">
+                <input type="submit" class="btn btn-success btn-lg btn-block" value="Get Started">
+                {% for error in form.non_field_errors %}
+                    <p class="text-red">{{ error|escape }}</p>
+                {% endfor %}
+                <br/>
+                <p class="text-green">Already have an account? <a href="{% url 'login' %}">Login</a> here
+                </p>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
