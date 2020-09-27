@@ -31,11 +31,6 @@ class LoginForm(forms.Form):
 
             if not user:
                 raise forms.ValidationError('Invalid email & password combination')
-            # if not user.check_password(password):
-            #     raise forms.ValidationError('Password mismatch')
-            if not user.is_active:
-                print('User is not active')
-                raise forms.ValidationError('User is not active')
 
         super(LoginForm, self).clean()
 
@@ -63,7 +58,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('email', 'password', 'password2')
 
     def clean(self):
         email = self.cleaned_data.get('email')
@@ -85,20 +80,6 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-    # def clean_email(self):
-    #     email = self.cleaned_data.get('email')
-    #     qs = User.objects.filter(email=email)
-    #     if qs.exists():
-    #         raise forms.ValidationError("email is taken")
-    #     return email
-    #
-    # def clean_password2(self):
-    #     # Check that the two password entries match
-    #     password1 = self.cleaned_data.get("password1")
-    #     password2 = self.cleaned_data.get("password2")
-    #     if password1 and password2 and password1 != password2:
-    #         raise forms.ValidationError("Passwords don't match")
-    #     return password2
 
 
 class UserAdminCreationForm(forms.ModelForm):
@@ -125,8 +106,10 @@ class UserAdminCreationForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super(UserAdminCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+
         if commit:
             user.save()
+
         return user
 
 

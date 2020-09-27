@@ -13,6 +13,7 @@ def show_login(request):
         password = form.cleaned_data.get('password')
 
         user = authenticate(email=email, password=password)
+        print('user: ', user)
         login(request, user)
         return redirect('dashboard')
 
