@@ -36,6 +36,9 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.ModelForm):
+    """
+    Form for registering user
+    """
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
@@ -80,6 +83,41 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class RegisterWithProfile(RegisterForm):
+    """
+    Extended registration form that will also create user profile
+    """
+    firstName = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control form-control-lg no-b',
+                'placeholder': 'Your First Name',
+            }
+        ))
+
+    lastName = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control form-control-lg no-b',
+                'placeholder': 'Your last Name',
+            }
+        ))
+
+    class Meta:
+        model = User
+        fields = ('firstName', 'lastName', 'email', 'password', 'password2')
+
+    def save(self, **kwargs):
+        user_instance = super().save(commit=True)
+
+        first_name = self.cleaned_data['firstName']
+        last_name = self.cleaned_data['lastName']
+
+        profile = Profile(user=user_instance, firstName=first_name, lastName=last_name)
+        profile.save()
+        return user_instance
 
 
 class UserAdminCreationForm(forms.ModelForm):

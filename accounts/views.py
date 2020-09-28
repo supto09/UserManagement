@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from accounts.forms import LoginForm, RegisterForm
+from accounts.forms import LoginForm, RegisterWithProfile
 
 
 def show_login(request):
@@ -13,7 +13,6 @@ def show_login(request):
         password = form.cleaned_data.get('password')
 
         user = authenticate(email=email, password=password)
-        print('user: ', user)
         login(request, user)
         return redirect('dashboard')
 
@@ -26,7 +25,7 @@ def show_login(request):
 
 
 def show_register(request):
-    form = RegisterForm(request.POST or None)
+    form = RegisterWithProfile(request.POST or None)
     if form.is_valid():
         form.save()
         return redirect('login')
