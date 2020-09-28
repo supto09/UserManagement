@@ -2,14 +2,30 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
-from .forms import UserAdminCreationForm, UserAdminChangeForm
-from .models import User
+from .forms import UserAdminChangeForm, ProfileWithUserAdminCreationForm
+from .models import User, Profile
 
 
-class UserAdmin(BaseUserAdmin):
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
+
+
+class CustomUserAdmin(BaseUserAdmin):
+    inlines = (ProfileInline,)
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+
+
+class UserAdmin(CustomUserAdmin):
     # The forms to add and change user instances
     form = UserAdminChangeForm
-    add_form = UserAdminCreationForm
+    add_form = ProfileWithUserAdminCreationForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -26,7 +42,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}
+            'fields': ('email', 'firstName', 'lastName', 'password1', 'password2')}
          ),
     )
     search_fields = ('email',)
@@ -35,6 +51,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+# admin.site.register(Profile)
 
 # Remove Group Model from admin. We're not using it.
 admin.site.unregister(Group)

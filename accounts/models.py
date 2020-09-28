@@ -44,6 +44,9 @@ class UserManager(BaseUserManager):
         user.staff = True
         user.admin = True
         user.save(using=self._db)
+
+        Profile(user=user).save()
+
         return user
 
 
@@ -99,10 +102,15 @@ class User(AbstractBaseUser):
         """Is the user active?"""
         return self.active
 
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     firstName = models.CharField(max_length=30)
-#     lastName = models.CharField(max_length=30)
-#
-#     def __str__(self):
-#         return self.firstName + ' ' + self.lastName
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    firstName = models.CharField(null=True, max_length=30)
+    lastName = models.CharField(null=True, max_length=30)
+    bio = models.CharField(null=True, blank=True, max_length=200)
+    birthDate = models.DateField(null=True, blank=True)
+    # profile_pic = models.ImageField(default='default.jpg', upload_to='profiles_pics')
+    hobby = models.CharField(null=True, blank=True, max_length=200)
+
+    def __str__(self):
+        return self.user.email

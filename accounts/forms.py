@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import User
+from .models import User, Profile
 
 
 class LoginForm(forms.Form):
@@ -111,6 +111,26 @@ class UserAdminCreationForm(forms.ModelForm):
             user.save()
 
         return user
+
+
+class ProfileWithUserAdminCreationForm(UserAdminCreationForm):
+    """
+    Extended form for user creation that will contain profile and user information
+    """
+    firstName = forms.CharField(label='First Name', widget=forms.TextInput)
+    lastName = forms.CharField(label='Last Name', widget=forms.TextInput)
+
+    def save(self, commit=True):
+        instance = super().save(commit=True)
+        first_name = self.cleaned_data['firstName']
+        last_name = self.cleaned_data['lastName']
+        profile = Profile(
+            user=instance,
+            firstName=first_name,
+            lastName=last_name
+        )
+        profile.save()
+        return instance
 
 
 class UserAdminChangeForm(forms.ModelForm):
