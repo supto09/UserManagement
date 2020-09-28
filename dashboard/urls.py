@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.urls import path
 
-from dashboard.views import show_dashboard
+from dashboard.views import show_dashboard, show_profile
 
 urlpatterns = [
     path('', show_dashboard, name="dashboard"),
+    path('profile', show_profile, name="profile"),
 ]

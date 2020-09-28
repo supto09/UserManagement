@@ -7,4 +7,9 @@ from django.shortcuts import render
 
 @login_required(login_url='/accounts/login')
 def show_dashboard(request):
-    return render(request, "dashboard.html")
+    return render(request, "dashboard/dashboard.html")
+
+
+@login_required(login_url='/accounts/login')
+def show_profile(request):
+    return render(request, "dashboard/profile.html")
