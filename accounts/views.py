@@ -17,7 +17,6 @@ def show_login(request):
         return redirect('dashboard')
 
     context = {
-        'title': 'Login',
         'form': form
     }
 
@@ -31,7 +30,6 @@ def show_register(request):
         return redirect('login')
 
     context = {
-        'title': 'Register',
         'form': form
     }
 
