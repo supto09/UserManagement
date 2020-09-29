@@ -10,6 +10,11 @@
                 </h6>
             </div>
             <div class="card-body">
+                <div class="col-12 d-flex justify-content-center text-center">
+                    <figure class="avatar avatar-xl">
+                        <img src='{% static "img/dummy/u6.png" %}' alt="">
+                    </figure>
+                </div>
 
                 <form class="form-material" method="post"> {% csrf_token %}
                     <div class="form-line">
@@ -33,4 +38,5 @@
         </div>
         <!-- #END# Profile update form -->
     </div>
+
 {% endblock %}
