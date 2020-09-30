@@ -105,11 +105,11 @@ class User(AbstractBaseUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    firstName = models.CharField(null=True, max_length=30)
-    lastName = models.CharField(null=True, max_length=30)
+    first_name = models.CharField(null=True, max_length=30)
+    last_name = models.CharField(null=True, max_length=30)
     bio = models.CharField(null=True, blank=True, max_length=200)
-    birthDate = models.DateField(null=True, blank=True)
-    # profile_pic = models.ImageField(default='default.jpg', upload_to='profiles_pics')
+    birth_date = models.DateField(null=True, blank=True)
+    profile_pic = models.ImageField(default='default.jpg', upload_to='profile_pic')
     hobby = models.CharField(null=True, blank=True, max_length=200)
 
     def __str__(self):

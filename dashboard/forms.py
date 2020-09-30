@@ -7,7 +7,7 @@ class ProfileUpdateForm(forms.ModelForm):
     """
     Form for updating user profile
     """
-    firstName = forms.CharField(
+    first_name = forms.CharField(
         label='First Name',
         widget=forms.TextInput(
             attrs={
@@ -16,7 +16,7 @@ class ProfileUpdateForm(forms.ModelForm):
         )
 
     )
-    lastName = forms.CharField(
+    last_name = forms.CharField(
         label='Last Name',
         widget=forms.TextInput(
             attrs={
@@ -33,7 +33,7 @@ class ProfileUpdateForm(forms.ModelForm):
             }
         )
     )
-    birthDate = forms.DateField(
+    birth_date = forms.DateField(
         label='Birth Date',
         required=False,
         widget=forms.DateInput(
@@ -55,18 +55,19 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('firstName', 'lastName', 'bio', 'birthDate', 'hobby')
+        fields = '__all__'
+        exclude = ['user']
 
-    def clean_firstName(self):
-        first_name = self.cleaned_data.get("firstName")
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name")
         if not first_name:
             print('first name validatetion', first_name)
             raise forms.ValidationError('First Name is required')
 
         return first_name
 
-    def clean_lastName(self):
-        last_name = self.cleaned_data.get("lastName")
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get("last_name")
         if not last_name:
             print('last_name validatetion', last_name)
             raise forms.ValidationError('Last Name is required')

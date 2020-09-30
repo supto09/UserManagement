@@ -89,7 +89,7 @@ class RegisterWithProfile(RegisterForm):
     """
     Extended registration form that will also create user profile
     """
-    firstName = forms.CharField(
+    first_name = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-lg no-b',
@@ -97,7 +97,7 @@ class RegisterWithProfile(RegisterForm):
             }
         ))
 
-    lastName = forms.CharField(
+    last_name = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-lg no-b',
@@ -107,15 +107,15 @@ class RegisterWithProfile(RegisterForm):
 
     class Meta:
         model = User
-        fields = ('firstName', 'lastName', 'email', 'password', 'password2')
+        fields = ('first_name', 'last_name', 'email', 'password', 'password2')
 
     def save(self, **kwargs):
         user_instance = super().save(commit=True)
 
-        first_name = self.cleaned_data['firstName']
-        last_name = self.cleaned_data['lastName']
+        first_name = self.cleaned_data['first_name']
+        last_name = self.cleaned_data['last_name']
 
-        profile = Profile(user=user_instance, firstName=first_name, lastName=last_name)
+        profile = Profile(user=user_instance, first_name=first_name, last_name=last_name)
         profile.save()
         return user_instance
 
@@ -155,17 +155,17 @@ class ProfileWithUserAdminCreationForm(UserAdminCreationForm):
     """
     Extended form for user creation that will contain profile and user information
     """
-    firstName = forms.CharField(label='First Name', widget=forms.TextInput)
-    lastName = forms.CharField(label='Last Name', widget=forms.TextInput)
+    first_name = forms.CharField(label='First Name', widget=forms.TextInput)
+    last_name = forms.CharField(label='Last Name', widget=forms.TextInput)
 
     def save(self, commit=True):
         instance = super().save(commit=True)
-        first_name = self.cleaned_data['firstName']
-        last_name = self.cleaned_data['lastName']
+        first_name = self.cleaned_data['first_name']
+        last_name = self.cleaned_data['last_name']
         profile = Profile(
             user=instance,
-            firstName=first_name,
-            lastName=last_name
+            first_name=first_name,
+            last_name=last_name
         )
         profile.save()
         return instance
