@@ -12,7 +12,11 @@ def show_dashboard(request):
 
 @login_required(login_url='/accounts/login')
 def show_profile(request):
-    profile_update_form = ProfileUpdateForm(request.POST or None, instance=request.user.profile)
+    profile_update_form = ProfileUpdateForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=request.user.profile
+    )
 
     if profile_update_form.is_valid():
         profile_update_form.save()

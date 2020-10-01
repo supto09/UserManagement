@@ -1,5 +1,10 @@
 {% extends 'home.html' %}
 {% load static %}
+
+{% block header %}
+
+{% endblock %}
+
 {% block content %}
     <div class="col-md-7">
         <!-- Profile update form -->
@@ -12,11 +17,11 @@
             <div class="card-body">
                 <div class="col-12 d-flex justify-content-center text-center">
                     <figure class="avatar avatar-xl">
-                        <img src='{% static "img/dummy/u6.png" %}' alt="">
+                        <img src={{ user.profile.profile_pic.url }}    alt='{% static "img/dummy/u6.png" %}'>
                     </figure>
                 </div>
 
-                <form class="form-material" method="post"> {% csrf_token %}
+                <form class="form-material" enctype="multipart/form-data" method="post"> {% csrf_token %}
                     <div class="form-line">
                         {% for field in form %}
                             <div class="form-group form-float">
@@ -32,7 +37,6 @@
                         {% endfor %}
                         <button class="btn btn-primary" type="submit">Update Profile</button>
                     </div>
-
                 </form>
             </div>
         </div>

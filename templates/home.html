@@ -10,6 +10,8 @@
     <title>User Mangement</title>
     <!-- CSS -->
     <link rel="stylesheet" href='{% static "css/app.css" %}'>
+    <script href='{% static "js/dropzone.js" %}'></script>
+
     <style>
         .loader {
             position: fixed;
@@ -52,6 +54,13 @@
             }
         }
     })(window, document)</script>
+
+
+    {% block header %}
+
+    {% endblock %}
+
+
 </head>
 <body class="light">
 <!-- Pre loader -->
@@ -483,7 +492,7 @@
         })
     })(jQuery, document)
 </script>
-{% block scripts %}
+{% block footer %}
 
 {% endblock %}
 

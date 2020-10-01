@@ -53,6 +53,15 @@ class ProfileUpdateForm(forms.ModelForm):
         )
     )
 
+    profile_pic = forms.ImageField(
+        label='Profile Picture',
+        widget=forms.FileInput(
+            attrs={
+                'name': 'file'
+            }
+        )
+    )
+
     class Meta:
         model = Profile
         fields = '__all__'
@@ -61,7 +70,6 @@ class ProfileUpdateForm(forms.ModelForm):
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name")
         if not first_name:
-            print('first name validatetion', first_name)
             raise forms.ValidationError('First Name is required')
 
         return first_name
@@ -69,13 +77,13 @@ class ProfileUpdateForm(forms.ModelForm):
     def clean_last_name(self):
         last_name = self.cleaned_data.get("last_name")
         if not last_name:
-            print('last_name validatetion', last_name)
             raise forms.ValidationError('Last Name is required')
 
         return last_name
 
     def save(self, commit=True):
         profile = super(ProfileUpdateForm, self).save(commit=False)
+        print('profile', profile.profile_pic, profile.user)
         if commit:
             profile.save()
         return profile
